@@ -1,0 +1,52 @@
+mode: daemonset
+presets:
+  logsCollection:
+    enabled: true
+  kubernetesAttributes:
+    enabled: true
+config:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4317
+        http:
+          endpoint: 0.0.0.0:4318
+  processors:
+    batch:
+      send_batch_size: 8192
+      timeout: 1s
+      send_batch_max_size: 10240
+    memory_limiter:
+      check_interval: 1s
+      limit_percentage: 80
+      spike_limit_percentage: 20
+    filter/pii:
+      error_mode: ignore
+      logs:
+        log_record:
+          - 'body["password"] = "REDACTED"'
+          - 'body["credit_card"] = "REDACTED"'
+          - 'body["ssn"] = "REDACTED"'
+  exporters:
+    otlp/loki:
+      endpoint: http://loki-distributor.telemetry.svc.cluster.local:3100/loki/api/v1/push
+    otlp/tempo:
+      endpoint: tempo-distributor.telemetry.svc.cluster.local:4317
+      tls:
+        insecure: true
+    prometheus:
+      endpoint: 0.0.0.0:8889
+      namespace: otel
+  service:
+    pipelines:
+      logs:
+        receivers: [otlp]
+        processors: [memory_limiter, filter/pii, batch]
+        exporters: [otlp/loki]
+      traces:
+        receivers: [otlp]
+        processors: [memory_limiter, batch]
+        exporters: [otlp/tempo]
+
+# Work revision 5
