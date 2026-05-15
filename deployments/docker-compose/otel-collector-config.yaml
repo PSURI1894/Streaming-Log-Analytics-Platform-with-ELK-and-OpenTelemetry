@@ -49,4 +49,4 @@ config:
         processors: [memory_limiter, batch]
         exporters: [otlp/tempo]
 
-# Work revision 2
+# Work revision 3
