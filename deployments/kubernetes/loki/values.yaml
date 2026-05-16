@@ -25,4 +25,4 @@ loki:
     max_entries_limit_per_query: 5000
     cardinality_limit: 100000
 
-# Work revision 4
+# Work revision 5
