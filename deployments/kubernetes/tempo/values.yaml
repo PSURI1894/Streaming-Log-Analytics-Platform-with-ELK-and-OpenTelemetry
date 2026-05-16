@@ -25,4 +25,4 @@ tempo:
         max_block_bytes: 1073741824
         block_retention: 720h
 
-# Work revision 2
+# Work revision 3
