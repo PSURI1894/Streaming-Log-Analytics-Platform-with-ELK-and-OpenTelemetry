@@ -1,0 +1,25 @@
+mimir:
+  multi_tenancy_enabled: false
+  structuredConfig:
+    common:
+      storage:
+        backend: s3
+        s3:
+          endpoint: s3.us-east-1.amazonaws.com
+          bucket_name: telemetry-mimir-blocks
+          region: us-east-1
+    blocks_storage:
+      backend: s3
+      s3:
+        bucket_name: telemetry-mimir-blocks
+      tsdb:
+        dir: /data/mimir/tsdb
+        ship_interval: 1m
+        block_ranges_period: [2h]
+        retention_period: 24h
+    compactor:
+      data_dir: /data/mimir/compactor
+      compaction_interval: 30m
+      max_compaction_range: 72h
+
+# Work revision 0
