@@ -22,4 +22,4 @@ mimir:
       compaction_interval: 30m
       max_compaction_range: 72h
 
-# Work revision 3
+# Work revision 4
