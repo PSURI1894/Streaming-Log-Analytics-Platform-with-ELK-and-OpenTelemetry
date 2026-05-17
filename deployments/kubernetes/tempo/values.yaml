@@ -1,0 +1,28 @@
+tempo:
+  structuredConfig:
+    multitenancy_enabled: false
+    search_enabled: true
+    common:
+      storage:
+        backend: s3
+        s3:
+          bucket: telemetry-tempo-spans
+          endpoint: s3.us-east-1.amazonaws.com
+          region: us-east-1
+    storage:
+      trace:
+        backend: s3
+        block:
+          bloom_filter_false_positive: 0.05
+          index_downsample_bytes: 1048576
+        s3:
+          bucket: telemetry-tempo-spans
+        wal:
+          path: /var/tempo/wal
+    compactor:
+      compactor:
+        compaction_cycle: 30s
+        max_block_bytes: 1073741824
+        block_retention: 720h
+
+# Work revision 5
