@@ -1,0 +1,22 @@
+[sources.logs_stdin]
+type = "kubernetes_logs"
+exclude_paths_glob_patterns = ["/var/log/pods/telemetry_*"]
+
+[transforms.parse_json]
+type = "remap"
+inputs = ["logs_stdin"]
+source = '''
+.parsed = parse_json(.message) ?? {}
+if .parsed != null {
+  . = merge(., .parsed)
+  del(.message)
+}
+.level = .level ?? "INFO"
+'''
+
+[sinks.loki_backend]
+type = "loki"
+inputs = ["parse_json"]
+endpoint = "http://loki.telemetry.svc.cluster.local:3100"
+labels = { service_name = "{{service.name}}", level = "{{level}}", environment = "{{service.environment}}" }
+encoding.codec = "json"

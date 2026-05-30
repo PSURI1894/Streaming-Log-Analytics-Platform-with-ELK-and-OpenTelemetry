@@ -28,5 +28,3 @@ def verify_metrics_cardinality(prometheus_endpoint):
 if __name__ == "__main__":
     endpoint = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:9090"
     verify_metrics_cardinality(endpoint)
-
-# Work revision 5

@@ -1,0 +1,9 @@
+global:
+  resolve_timeout: 5m
+route:
+  group_by: ['alertname']
+  receiver: 'pagerduty-notifications'
+receivers:
+- name: 'pagerduty-notifications'
+  email_configs:
+  - to: 'sre-alerts@example.com'

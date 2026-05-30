@@ -1,0 +1,16 @@
+groups:
+  - name: telemetry-slo-alerts
+    rules:
+      - alert: HighHttpErrorRateSLOBurn
+        expr: |
+          sum(rate(http_server_duration_milliseconds_count{http_status_code=~"5.."}[5m]))
+          /
+          sum(rate(http_server_duration_milliseconds_count[5m]))
+          > 0.02
+        for: 2m
+        labels:
+          severity: critical
+          tier: platform
+        annotations:
+          summary: HTTP latency SLO is burning rapidly
+          description: Service {{ $labels.service_name }} error rate is exceeding 2% in the last 5 minutes.

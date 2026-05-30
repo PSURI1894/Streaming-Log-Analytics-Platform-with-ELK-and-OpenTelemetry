@@ -64,5 +64,3 @@ async def charge(request: Request):
 @app.get("/health")
 def health():
     return {"status": "UP"}
-
-# Work revision 5

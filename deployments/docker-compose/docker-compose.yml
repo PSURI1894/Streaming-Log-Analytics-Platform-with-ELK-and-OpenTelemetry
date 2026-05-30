@@ -76,5 +76,3 @@ services:
       - loki
       - tempo
       - mimir
-
-# Work revision 5
