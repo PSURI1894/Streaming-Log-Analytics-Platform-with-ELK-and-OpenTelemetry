@@ -44,10 +44,10 @@ graph TD
     end
 
     subgraph Querying & Meta-Observability [Query & Analysis Tier]
-        G1[Unified Grafana UI] -->|LogQL| E1
-        G1 -->|PromQL / Remote Read| E2
-        G1 -->|TraceID Lookup| E3
-        G1 -->|Lucene Queries| E4
+        E1 -->|LogQL Logs| G1[Unified Grafana UI]
+        E2 -->|PromQL Metrics| G1
+        E3 -->|TraceID Traces| G1
+        E4 -->|Lucene Search| G1
 
         G1 -.->|Correlation: TraceID / SpanID| G1
     end
